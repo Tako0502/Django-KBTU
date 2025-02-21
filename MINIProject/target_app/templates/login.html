@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-form">
+        <h2 class="text-center mb-4">Login</h2>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <p class="text-center mt-3">
+            Don't have an account? <a href="/register">Register here</a>
+        </p>
+    </div>
+</div>
+
+<script>
+async function handleLogin(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('/api/users/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Store the token
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', data.username);
+            // Redirect to home page
+            window.location.href = '/';
+        } else {
+            alert(data.error || 'Login failed');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Login failed');
+    }
+}
+</script>
+{% endblock %} 

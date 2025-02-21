@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-form">
+        <h2 class="text-center mb-4">Register</h2>
+        <form id="registerForm" onsubmit="handleRegister(event)">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        <p class="text-center mt-3">
+            Already have an account? <a href="/login">Login here</a>
+        </p>
+    </div>
+</div>
+
+<script>
+async function handleRegister(event) {
+    event.preventDefault();
+    const username = document.querySelector('input[id="username"]').value;
+    const email = document.querySelector('input[id="email"]').value;
+    const password = document.querySelector('input[id="password"]').value;
+
+    try {
+        const response = await fetch('/api/users/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Store the token
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', data.username);
+            // Redirect to home page
+            window.location.href = '/';
+        } else {
+            alert(data.error || 'Registration failed');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Registration failed');
+    }
+}
+</script>
+{% endblock %} 
