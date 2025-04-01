@@ -1,0 +1,11 @@
+{% extends "expenses/home.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="auth-card card">
+        {% block auth_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %} 

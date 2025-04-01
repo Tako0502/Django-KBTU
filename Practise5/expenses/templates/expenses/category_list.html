@@ -1,0 +1,50 @@
+<!-- expenses/templates/expenses/category_list.html -->
+{% extends "expenses/home.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header">
+            <h2>Categories</h2>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Number of Expenses</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr>
+                        <td><span class="category-tag">{{ category.name }}</span></td>
+                        <td>{{ category.expense_set.count }}</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_category' category.id %}" class="btn btn-primary">Edit</a>
+                                <form method="post" action="{% url 'delete_category' category.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure? This will also delete all expenses in this category.')">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No categories found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-between mt-2">
+            <a href="{% url 'add_category' %}" class="btn btn-success">Add New Category</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

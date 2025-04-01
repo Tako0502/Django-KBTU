@@ -1,0 +1,93 @@
+{% extends "account/base_auth.html" %}
+{% load i18n %}
+
+{% block auth_content %}
+<div class="card-header">
+    <h2 class="text-center">{% trans "Sign Up" %}</h2>
+</div>
+
+<div class="card-body">
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_username">{% trans "Username" %}</label>
+            <input type="text" 
+                   name="username" 
+                   class="form-control" 
+                   id="id_username" 
+                   placeholder="Username"
+                   required>
+            {% if form.username.errors %}
+            <div class="alert alert-danger mt-1">
+                {{ form.username.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">{% trans "Email" %}</label>
+            <input type="email" 
+                   name="email" 
+                   class="form-control" 
+                   id="id_email" 
+                   placeholder="Email"
+                   required>
+            {% if form.email.errors %}
+            <div class="alert alert-danger mt-1">
+                {{ form.email.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1">{% trans "Password" %}</label>
+            <input type="password" 
+                   name="password1" 
+                   class="form-control" 
+                   id="id_password1" 
+                   placeholder="Password"
+                   required>
+            {% if form.password1.errors %}
+            <div class="alert alert-danger mt-1">
+                {{ form.password1.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2">{% trans "Confirm Password" %}</label>
+            <input type="password" 
+                   name="password2" 
+                   class="form-control" 
+                   id="id_password2" 
+                   placeholder="Confirm Password"
+                   required>
+            {% if form.password2.errors %}
+            <div class="alert alert-danger mt-1">
+                {{ form.password2.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <div class="d-flex justify-between align-center mt-2">
+            <button type="submit" class="btn btn-primary">{% trans "Sign Up" %}</button>
+            <a class="btn btn-link" href="{{ login_url }}">
+                {% trans "Already have an account?" %}
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %} 

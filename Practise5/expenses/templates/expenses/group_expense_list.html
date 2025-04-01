@@ -1,0 +1,64 @@
+<!-- expenses/templates/expenses/group_expense_list.html -->
+{% extends "expenses/home.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header">
+            <h2>Group Expenses</h2>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Total Amount</th>
+                        <th>Participants</th>
+                        <th>Your Share</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in group_expenses %}
+                    <tr class="group-expense-card">
+                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.date }}</td>
+                        <td class="text-right">${{ expense.amount }}</td>
+                        <td>
+                            {% for user in expense.users.all %}
+                            <span class="user-share">{{ user.username }}</span>
+                            {% endfor %}
+                        </td>
+                        <td class="text-right">${{ expense.split_expense }}</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_group_expense' expense.id %}" class="btn btn-primary">Edit</a>
+                                <form method="post" action="{% url 'delete_group_expense' expense.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No group expenses found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-between mt-2">
+            <a href="{% url 'add_group_expense' %}" class="btn btn-success">Add New Group Expense</a>
+            <div class="text-right">
+                <p>Total Group Expenses: ${{ total_amount }}</p>
+                <p>Your Total Share: ${{ user_share }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
