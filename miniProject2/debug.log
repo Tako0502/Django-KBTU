@@ -3968,3 +3968,21 @@ Bad Request: /api/auth/register/
 "POST /api/auth/register/ HTTP/1.1" 400 74
 /Users/talanterzhan/Documents/GitHub/Django-KBTU/miniProject2/jobs/views.py changed, reloading.
 Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+Bad Request: /api/auth/login/
+"POST /api/auth/login/ HTTP/1.1" 400 74
+"OPTIONS /api/auth/register/ HTTP/1.1" 200 0
+Bad Request: /api/auth/register/
+"POST /api/auth/register/ HTTP/1.1" 400 74
+Bad Request: /api/auth/register/
+"POST /api/auth/register/ HTTP/1.1" 400 106
+Bad Request: /api/auth/register/
+"POST /api/auth/register/ HTTP/1.1" 400 49
+"POST /api/auth/register/ HTTP/1.1" 201 713
+"OPTIONS /api/auth/user/ HTTP/1.1" 200 0
+"OPTIONS /api/auth/user/ HTTP/1.1" 200 0
+Not Found: /api/auth/user/
+"GET /api/auth/user/ HTTP/1.1" 404 5642
+Not Found: /api/auth/user/
+"GET /api/auth/user/ HTTP/1.1" 404 5642
